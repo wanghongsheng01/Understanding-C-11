@@ -86,5 +86,3 @@ static_assert.cpp:16:2: note: in instantiation of function template specializati
 ```
 
 编译期，模版 `template <typename t, typename u> int bit_copy(t& a, u& b)` 特化为 `bit_copy<int, double>`，static_assert 检查错误。
-```s时
-```
