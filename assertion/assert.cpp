@@ -8,5 +8,6 @@ char* ArrayAlloc(int n){
 }
 
 int main(){
-	char* a = ArrayAlloc(100);
+	char* b = ArrayAlloc(0);
 }
+
