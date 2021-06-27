@@ -46,7 +46,6 @@ int main(){
 ```
 
 运行结果：<br>
-`
 A-int_i:100 <br>
 A-int_i:30 <br>
 A-double_d:40.9 <br>
@@ -54,4 +53,4 @@ A-int_i:30 <br>
 A-float_a:50.99 <br>
 A-int_i:60 <br>
 A-const char* c:char <br>
-`
+
