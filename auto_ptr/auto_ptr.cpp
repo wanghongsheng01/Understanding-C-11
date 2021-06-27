@@ -20,13 +20,16 @@ int main(){
 	// std::cout<< *up3 <<std::endl; // 运行时错误
 	
 	shared_ptr<int> sp1(new int(22));
+	std::cout<<"sp1.use_count():"<< sp1.use_count() <<std::endl; // 1
 	shared_ptr<int> sp2(sp1);
+	std::cout<<"sp2.use_count():"<< sp2.use_count() <<std::endl; // 2
 
 	std::cout<<"*sp1:"<< *sp1 <<std::endl; // 22
 	std::cout<<"*sp2"<< *sp2 <<std::endl; // 22
 
 	sp1.reset();
 	std::cout<<"*sp2:"<<*sp2<<std::endl; // 22
+	std::cout<<"sp2.use_count():"<< sp2.use_count() <<std::endl; // 1
 	
 	
 
