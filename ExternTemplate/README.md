@@ -73,5 +73,35 @@
     查看结果：U void fun<int>(int)<br>
     U 指 Undefined<br>
   
+  这里也可以把外部模板声明放在头文件中，这样所有包含 test.h 的头文件都可以共享这个外部模板声明了。
   
+  test.h
+  ```.h
+  template<typename T>
+  void fun(T t){}
+  extern template void fun<int>(int);
+  ```
+  
+  test1.cpp
+  ```.cpp
+  #include "test.h"
+  template void fun<int>(int);
+  void test1(){
+    fun(3);
+  }
+  ```
+  
+  test2.cpp
+  ```.cpp
+  #include "test.h"
+  #include<iostream>
+  using namespace std;
+
+  int main(){
+    fun(4);
+    std::cout<<"extern template void fun<int>(int)"<<std::endl;
+    return 0;
+  }
+
+  ```
   
