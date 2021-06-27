@@ -1,6 +1,3 @@
-#include<iostream>
-using namespace std;
-
 template<typename T>
-void fun(T t){	
-}
+void fun(T t){}
+extern template void fun<int>(int);
