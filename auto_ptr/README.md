@@ -26,12 +26,12 @@ int main(){
 	// std::cout<< *up3 <<std::endl; // 运行时错误
 	
 	shared_ptr<int> sp1(new int(22));
-	shared_ptr<int> sp2(sp1);
+	shared_ptr<int> sp2(sp1); // sp2 和 sp1 共享了 new 分配的堆内存（共享地 “拥有” 同一堆分配对象的内存）
 
 	std::cout<<"*sp1:"<< *sp1 <<std::endl; // 22
 	std::cout<<"*sp2"<< *sp2 <<std::endl; // 22
 
-	sp1.reset();
+	sp1.reset(); // sp1 放弃所有权，导致引用计数降低，不会导致堆内存的释放，只有当引用计数归零时，shared_ptr 释放所占有的堆内存空间
 	std::cout<<"*sp2:"<<*sp2<<std::endl; // 22
 	
 }
@@ -43,3 +43,8 @@ int main(){
 *sp1:22<br>
 *sp222<br>
 *sp2:22<br>
+
+## shared_ptr
+* 允许多个 shared_ptr 共享地 “拥有” 同一堆分配对象的内存。
+* shred_ptr 实现上采用引用计数，一旦一个 shared_ptr 指针放弃了 “所有权”（失效），其它 shared_ptr 对对象内存的引用并不受到影响。
+* shared_ptr 放弃所有权，导致引用计数降低，不会导致堆内存的释放，只有当引用计数归零时，shared_ptr 才会真正释放所占有的堆内存空间。
