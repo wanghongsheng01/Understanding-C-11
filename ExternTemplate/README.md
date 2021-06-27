@@ -56,8 +56,8 @@
     `g++ -std=c++11 -Wall -Wextra -pedantic -o test.out test1.o test2.o`
   
   * 运行可执行文件<br>
-    `./test.out`
-    运行结果：extern template void fun<int>(int)
+    `./test.out`<br>
+    运行结果：extern template void fun<int>(int)<br>
   
   ## 编译解析外部模板<br>
   
