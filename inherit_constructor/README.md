@@ -54,3 +54,39 @@ A-float_a:50.99 <br>
 A-int_i:60 <br>
 A-const char* c:char <br>
 
+## 值得注意的几点：<br>
+* 当一个派生类从多个基类继承时，继承构造函数发生冲突的情况，可通过显式定义冲突的继承构造函数，阻止隐式生成的继承构造函数来解决冲突。
+```.cpp
+struct A{
+	A(int){}
+};
+struct B{
+	B(int){}
+};
+struct C : A, B{
+	using A:A;
+	using B:B;
+	C(int){}
+};
+```
+构造函数 C(int) 就解决了继承构造函数冲突的问题。
+
+* 如果派生类使用了继承构造函数，则编译器就不会为派生类生成默认构造函数，即派生类没有无参构造函数。
+no_default_constructor.cpp
+```.cpp
+struct A{
+	A(int){}
+};
+
+struct B: A{
+	using A:A;
+};
+
+int main(){
+	B b; // B 没有默认构造函数，由于 B 使用了继承构造函数
+	return 0;
+}
+
+```
+编译报错：<br>
+`note: default constructor of 'B' is implicitly deleted because base class 'A' has no default constructor`
