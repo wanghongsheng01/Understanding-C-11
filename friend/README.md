@@ -1,5 +1,5 @@
 ## friend
-为类模版声明友元<br>
+为类模板声明友元<br>
 friend.cpp
 ```.cpp
 class P;
