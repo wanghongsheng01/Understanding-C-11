@@ -79,6 +79,7 @@
   ```.h
   template<typename T>
   void fun(T t){}
+  // 外部模板声明
   extern template void fun<int>(int);
   ```
   
