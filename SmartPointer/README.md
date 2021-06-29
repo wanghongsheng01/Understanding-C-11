@@ -109,5 +109,5 @@ shared_ptr 管理数组时，需要指定删除器，因为 shared_ptr 默认删
     std::cout<<p4.get()[0]<<std::endl;// 返回 100 // p2.get()获取原始指针 a
     std::cout<<p4.get()[1]<<std::endl;// 返回 900
 	```
-
+## unique_ptr 管理动态数组 new T[size]
 # unique_ptr
