@@ -64,9 +64,39 @@ int main(){
 	* 情况1: 对于未初始化的空指针，可以使用 reset 初始化
 	* 情况2: 当智能指针中有值时，使用 reset 会使引用计数减
 	* 情况3: 可以使用 reset 让当前智能指针释放引用对象堆内存空间的所有权，导致引用计数降低，不会导致堆内存的释放，只有当引用计数归零时，shared_ptr 释放所占有的堆内存空间
-	
 	 
+## shared_ptr 获取原始指针
+```.cpp
+	shared_ptr<int> ptr2(new int(1000));
+	int* p_ori = ptr2.get();
+	cout<<"*p_ori:"<<*p_ori<<"\n"<<endl; // *p_ori:1000
+```
 ## shared_ptr 指定删除器
+* 方式1:删除器是自定义函数，当 ptr3 的引用计数为 0 时，自动调用删除器释放对象内存
+	
+	```.cpp
+	shared_ptr<int> ptr3(new int(2000), DeleteIntPtr); 
+	cout<<"reset 前，DeleteIntPtr 前，ptr3:"<<ptr3<<endl; // ptr3:0x7fddb34059b0
+	ptr3.reset(); 
+	cout<<"ptr3.use_count():"<<ptr3.use_count()<<endl;   // ptr3.use_count():0
+	cout<<"reset 后，DeleteIntPtr 后，ptr3:"<<ptr3<<"\n"<<endl; // ptr3:0x0，表示空指针，已释放对象内存
+	```
+
+* 方式2:删除器是 lambda 表达式
+	```.cpp
+	shared_ptr<int> ptr4(new int(3000), [](int* ptr){ delete ptr; });
+	cout<<"reset 前，DeleteIntPtr 前，ptr4:"<<ptr4<<endl; // ptr4:0x7f9588c059b0
+	ptr4.reset(); 
+	cout<<"ptr3.use_count():"<<ptr4.use_count()<<endl;   
+	cout<<"reset 后，DeleteIntPtr 后，ptr4:"<<ptr4<<"\n"<<endl; // ptr4:0x0
+	```
+	
 ## shared_ptr 管理动态数组
+shared_ptr 管理数组时，需要指定删除器，因为 shared_ptr 默认删除器不支持数组对象<br>
+如 `shared_ptr<int> ptr_arra(new int[3], [](int* p){ delete[] p; });`
+
+* new T 分配的内存，使用 delete 析构，delete 释放 new 分配的单个对象指针指向的内存
+* new T[ ] 分配的内存，使用 delete[] 析构，delete[]释放 new 分配的对象数组指针指向的内存
+
 
 # unique_ptr
