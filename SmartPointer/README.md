@@ -58,19 +58,22 @@ int main(){
 ```
 
 注意：
-1. 智能指针重载了 bool 类型操作符来判断智能指针是否已初始化（是否为空），如`std::shared_ptr<T>ptr, if(!ptr) {std::make_shared<T>(value)}`
-2. shared_ptr 不能将一个原始指针直接赋值给一个智能指针来初始化，如 `shared_ptr<int>p4 = new int(600); ` 编译报错，不允许直接赋值
-3. shared_ptr 使用 reset 方法时
-	* 情况1: 对于未初始化的空指针，可以使用 reset 初始化
-	* 情况2: 当智能指针中有值时，使用 reset 会使引用计数减
-	* 情况3: 可以使用 reset 让当前智能指针释放引用对象堆内存空间的所有权，导致引用计数降低，不会导致堆内存的释放，只有当引用计数归零时，shared_ptr 释放所占有的堆内存空间
+1. 智能指针重载了 bool 类型操作符来判断智能指针是否已初始化（是否为空)<br>
+   如`std::shared_ptr<T>ptr, if(!ptr) {std::make_shared<T>(value)}`<br>
+2. shared_ptr 不能将一个原始指针直接赋值给一个智能指针来初始化<br>
+   如 `shared_ptr<int>p4 = new int(600); ` 编译报错，不允许直接赋值<br>
+3. shared_ptr 使用 reset 方法时<br>
+	* 情况1: 对于未初始化的空指针，可以使用 reset 初始化<br>
+	* 情况2: 当智能指针中有值时，使用 reset 会使引用计数减<br>
+	* 情况3: 可以使用 reset 让当前智能指针释放引用对象堆内存空间的所有权，导致引用计数降低，不会导致堆内存的释放<br>
+			只有当引用计数归零时，shared_ptr 释放所占有的堆内存空间<br>
 	 
 ## shared_ptr 获取原始指针
-```.cpp
+	```.cpp
 	shared_ptr<int> ptr2(new int(1000));
 	int* p_ori = ptr2.get();
 	cout<<"*p_ori:"<<*p_ori<<"\n"<<endl; // *p_ori:1000
-```
+	```
 ## shared_ptr 指定删除器
 * 方式1:删除器是自定义函数，当 ptr3 的引用计数为 0 时，自动调用删除器释放对象内存
 	
