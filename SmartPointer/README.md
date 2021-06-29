@@ -98,5 +98,16 @@ shared_ptr 管理数组时，需要指定删除器，因为 shared_ptr 默认删
 * new T 分配的内存，使用 delete 析构，delete 释放 new 分配的单个对象指针指向的内存
 * new T[ ] 分配的内存，使用 delete[] 析构，delete[]释放 new 分配的对象数组指针指向的内存
 
+	```.cpp
+	// 创建动态数组，shared_ptr 管理动态数组
+	int* a = new int[3];
+	a[0] = 100;
+	a[1] = 900;
+	
+    std::shared_ptr<int> p4(a, [](int* p){ delete[] p;} );
+
+    std::cout<<p4.get()[0]<<std::endl;// 返回 100 // p2.get()获取原始指针 a
+    std::cout<<p4.get()[1]<<std::endl;// 返回 900
+	```
 
 # unique_ptr
