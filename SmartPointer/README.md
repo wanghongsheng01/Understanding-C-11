@@ -1,4 +1,9 @@
 # shared_ptr 
+
+## shared_ptr 的拷贝和赋值
+当进行拷贝或赋值时，每个 shared_ptr 都会记录有多少个其他 shared_ptr 指向相同的对象。
+
+	
 ## shared_ptr 初始化
 * 方式1. 使用 `make_shared<T>(value)`
 * 方式2. 使用构造函数 `shared_ptr<T> ptr(new T(value))`
