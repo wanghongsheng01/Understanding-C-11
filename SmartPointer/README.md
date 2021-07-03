@@ -102,6 +102,33 @@ int main(){
 	int* p_ori = ptr2.get();
 	cout<<"*p_ori:"<<*p_ori<<"\n"<<endl; // *p_ori:1000
 	
+## shared_ptr 返回 this 指针
+返回 A 类的 this 指针，通过让 A 类继承基类 std::enable_shared_from_this<T> 类，使用基类的成员函数 shared_from_this 来返回 this 的 shared_ptr
+	
+	shared_from_this.cpp
+	```.cpp
+	#include<iostream>
+	#include<memory>
+	using namespace std;
+
+	class A : public std::enable_shared_from_this<A>{
+	public:
+		std::shared_ptr<A> GetSelf(){
+			return shared_from_this();
+		}
+	};
+
+	int main(){
+		std::shared_ptr<A> p(new A);
+		std::cout<<"p:"<<p<<std::endl; // 0x7fc3f4405920
+		std::shared_ptr<A> ptr = p->GetSelf(); // 0x7fc3f4405920
+		std::cout<<"*ptr:"<<ptr<<std::endl;
+		return 0;
+	}
+	```
+
+	
+	
 ## shared_ptr 指定删除器
 * 方式1:删除器是自定义函数，当 ptr3 的引用计数为 0 时，自动调用删除器释放对象内存
 	
