@@ -104,8 +104,9 @@ int main(){
 	
 ## shared_ptr 返回 this 指针
 返回 A 类的 this 指针，通过让 A 类继承基类 std::enable_shared_from_this<T> 类，使用基类的成员函数 shared_from_this 来返回 this 的 shared_ptr
+
+shared_from_this.cpp
 	
-	shared_from_this.cpp
 	```.cpp
 	#include<iostream>
 	#include<memory>
@@ -125,7 +126,9 @@ int main(){
 		std::cout<<"*ptr:"<<ptr<<std::endl;
 		return 0;
 	}
+	
 	```
+	
 
 	
 	
