@@ -1,4 +1,30 @@
 # shared_ptr 
+
+## shared_ptr 的拷贝和赋值
+当进行拷贝或赋值时，每个 shared_ptr 都会记录有多少个其他 shared_ptr 指向相同的对象。
+
+shared_ptr_copy.cpp
+```.cpp
+#include<iostream>
+#include<memory>
+using namespace std;
+
+int main(){
+	shared_ptr<int> p = make_shared<int>(10); // p 指向的对象只有 p 一个引用者
+	cout<<"p.use_count()"<<p.use_count()<<endl; // 指向对象的引用计数器 = 1
+	shared_ptr<int> q(p); // p 和 q 指向相同对象，此对象有两个引用者
+	cout<<"p.use_count()"<<p.use_count()<<endl; // 指向对象的引用计数器 = 2
+	cout<<"q.use_count()"<<q.use_count()<<endl; // 指向对象的引用计数器 = 2
+
+	shared_ptr<int> r = make_shared<int>(42); 
+	r = q; // 给 r 赋值，令它指向另一个地址，递增 q 指向对象的引用计数；
+	// 递减 r 原来指向对象的引用计数，r 原来指向的对象已没有引用者，会自动释放
+	cout<<"r.use_count()"<<r.use_count()<<endl; // 指向对象的引用计数器 = 3 
+
+	return 0;
+}
+```
+	
 ## shared_ptr 初始化
 * 方式1. 使用 `make_shared<T>(value)`
 * 方式2. 使用构造函数 `shared_ptr<T> ptr(new T(value))`
@@ -75,6 +101,32 @@ int main(){
 	shared_ptr<int> ptr2(new int(1000));
 	int* p_ori = ptr2.get();
 	cout<<"*p_ori:"<<*p_ori<<"\n"<<endl; // *p_ori:1000
+	
+## shared_ptr 返回 this 指针
+返回 A 类的 this 指针，通过让 A 类继承基类 std::enable_shared_from_this<T> 类，使用基类的成员函数 shared_from_this 来返回 this 的 shared_ptr
+	
+	shared_from_this.cpp
+	
+	#include<iostream>
+	#include<memory>
+	using namespace std;
+
+	class A : public std::enable_shared_from_this<A>{
+	public:
+		std::shared_ptr<A> GetSelf(){
+			return shared_from_this();
+		}
+	};
+
+	int main(){
+		std::shared_ptr<A> p(new A);
+		std::cout<<"p:"<<p<<std::endl; // 0x7fc3f4405920
+		std::shared_ptr<A> ptr = p->GetSelf(); // 0x7fc3f4405920
+		std::cout<<"*ptr:"<<ptr<<std::endl;
+		return 0;
+	}
+	
+	
 	
 ## shared_ptr 指定删除器
 * 方式1:删除器是自定义函数，当 ptr3 的引用计数为 0 时，自动调用删除器释放对象内存
